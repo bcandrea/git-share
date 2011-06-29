@@ -1,0 +1,21 @@
+#!/bin/bash
+SCRIPT=`basename $0`
+VERSION="0.1"
+
+usage() {
+  echo "$SCRIPT v$VERSION"
+  echo "usage: $SCRIPT user@server.tld:path/to/project.git"
+}
+
+if [ -z $1 ]; then
+  usage
+elif [ ! -d ".git" ]; then
+  echo "Please run $SCRIPT from the root of a git repository"
+else
+  git remote add origin $1
+  git config branch.master.remote origin
+  git config branch.master.merge refs/heads/master
+  git push --all
+  git pull
+fi
+
